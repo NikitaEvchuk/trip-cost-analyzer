@@ -1,0 +1,16 @@
+version: 2
+models:
+  - name: mart_trip_comparison
+    columns:
+      - name: city
+        tests:
+          - not_null
+          - unique
+          - accepted_values:
+              values: ['Warsaw', 'Utrecht']
+      - name: total_budget_per_person
+        tests:
+          - not_null
+      - name: total_daily_spending_eur
+        tests:
+          - not_null

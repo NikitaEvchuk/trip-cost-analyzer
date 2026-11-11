@@ -1,45 +1,25 @@
-# Student Holiday Trip Cost Analyzer — Warsaw vs. Utrecht
+# Trip Cost Analyzer: Warsaw vs. Utrecht
 
-End-to-end analytics pipeline that answers a practical question: **which city is cheaper (and better value) for a New Year's trip with friends?**
+An end-to-end analytics pipeline and interactive Power BI dashboard built to compare travel and living expenses between two European cities, originally created to plan a New Year's trip (Dec 29 - Jan 2).
 
-It goes beyond accommodation and models daily spending: nightlife (pint, shots, club entry), street food & coffee, public transport and student-friendly activities (ice rinks, museums).
+![Power BI Dashboard](docs/dashboard_preview.png)
 
-## Stack
-`Excel` → `Python (pandas)` → `BigQuery` → `dbt` → `Power BI`
+## 1. Business Context & Problem
+Planning a group trip requires looking beyond accommodation prices. Daily living costs, such as food, public transport, and nightlife, often make up 40-50% of the total budget.
 
-```
-Open APIs / Excel ──> Python extract ──> BigQuery raw ──> dbt (staging → intermediate → marts) ──> Power BI
-```
+This project compares **Warsaw (Poland)** and **Utrecht (Netherlands)** using live market prices and provides an interactive cost calculator where group size and trip duration adjust dynamically.
 
-## Data sources (open only)
-| Domain | Source |
-|---|---|
-| POIs (bars, clubs, food, ice rinks, museums) | OpenStreetMap Overpass API |
-| FX rates | Frankfurter (ECB), NBP API |
-| Price levels | Eurostat `prc_ppp_ind` |
-| Daily prices, transport, accommodation offers | Manually collected Excel sheets (with source URLs) |
+## 2. Key Analytical Findings (4 Nights, 2 Guests Baseline)
+* **Total Budget per Person:** Warsaw costs **€407.89** vs. Utrecht **€564.07**.
+* **Cost Advantage:** Utrecht is **38.3% more expensive** overall.
+* **Daily Living Costs:** Food, transport, and nightlife cost **€39.19/day** in Warsaw compared to **€59.62/day** in Utrecht (+52%).
+* **Group Impact:** Choosing Warsaw saves **€312** for 2 people or **€781** for a group of 5 people over 4 days.
 
-## Interactive parameters
-Group size · trip dates / nights · display currency (EUR default) · spending profile (budget / medium / party) · accommodation type.
+**Recommendation:** Warsaw offers significantly better value for money, with higher-rated apartments available at lower nightly rates and much lower daily expenses.
 
-## Project structure
-```
-extract/      Python extract & load scripts
-data/manual/  Excel inputs
-data/raw/     downloaded files (git-ignored)
-dbt_trip/     dbt project
-notebooks/    exploratory analysis
-powerbi/      Power BI report
-```
+## 3. How It Works (3-Stage Pipeline)
+1. **Data Collection (Extract & Load):** Automated Python scripts fetch accommodation listings (Airbnb API), local consumer prices (Numbeo), and live exchange rates (ECB Frankfurter API), storing raw data in Google BigQuery.
+2. **Data Modeling (Transform & Test):** `dbt Core` cleans raw data, converts currencies to EUR, builds analytical marts, and runs automated data quality tests (`not_null`, `unique`, `accepted_values`).
+3. **Visualization (BI):** Power BI connects directly to BigQuery marts with DAX What-If parameters (`Group Size`, `Trip Nights`) for real-time scenario modeling.
 
-## Status
-🚧 Work in progress — see roadmap below.
-
-- [x] Phase 0 — setup & source validation
-- [ ] Phase 1 — manual data collection (Excel)
-- [ ] Phase 2 — Python extract
-- [ ] Phase 3 — MVP (pandas + Power BI on CSV)
-- [ ] Phase 4 — BigQuery
-- [ ] Phase 5 — dbt models & tests
-- [ ] Phase 6 — Power BI dashboard
-- [ ] Phase 7 — findings & recommendation
+> For technical implementation details, SQL architecture, and data lineage, see [ARCHITECTURE.md](ARCHITECTURE.md).

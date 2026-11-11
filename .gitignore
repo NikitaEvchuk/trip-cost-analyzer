@@ -13,12 +13,14 @@ service-account*.json
 
 # Data
 data/raw/*
+extract/data/
 !data/raw/.gitkeep
 
 # dbt
 dbt_trip/target/
 dbt_trip/dbt_packages/
 dbt_trip/logs/
+dbt_trip/.user.yml
 logs/
 
 # Excel temp files

@@ -1,0 +1,13 @@
+trip_bigquery_profile:
+  target: dev
+  outputs:
+    dev:
+      type: bigquery
+      method: service-account
+      project: trip-cost-analyzer
+      dataset: dbt_dev
+      threads: 4
+      keyfile: gcp-key.json
+      location: EU
+      timeout_seconds: 300
+      priority: interactive

@@ -1,0 +1,11 @@
+version: 2
+
+sources:
+  - name: raw
+    schema: raw
+    description: "Raw data from Google BigQuery (dataset: raw)"
+    tables:
+      - name: accommodation
+        description: "Airbnb dataset"
+      - name: numbeo_prices
+        description: "Prices for goods and services from Numbeo"
